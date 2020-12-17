@@ -12,12 +12,41 @@ const upload = multer({});
 
 const router = express.Router();
 
+/*
+Add the following endpoints/features:
+    GET /products/sumTwoPrices => pass two product IDs in req.query, the route should use them to get the prices of the two products and calculate the sum by contacting the following end-point:
+    http://www.dneonline.com/calculator.asmx?op=Add (ONLY INTEGER ALLOWED, SO CONVERT TO INTEGER NUMBERS IF NEEDED). Both request and response are gonna be in XML format, so you should create XML with data
+    for the request and when you get the response you have to parse the response to JSON and send it back to the caller. (I'm totally aware that doing a sum in this way is sooo stupid, but it's an XML 
+    exercise of course ;) )
+    Use SWAGGER to create the documentation for your Marketplace APIs
+    
+    GET /products/exportToCSV => exports list of products in form of a CSV file
+1. Route sumTwoPrices
+2.
+
+*/
+
 const fileReader = (file) => {
   const myPath = path.join(__dirname, file);
   const myFileAsBuffer = fs.readFileSync(myPath);
   const fileAsString = myFileAsBuffer.toString();
   return JSON.parse(fileAsString);
 };
+
+/*Percorso per la somma di due prezzi*/
+router.get("/sumTwoPrices", (req, res, next) => {
+  /*
+CREARE IL BODY XML
+*/
+
+  try {
+    const productsArray = fileReader("products.json");
+    res.send(productsArray);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
 
 router.get("/", (req, res, next) => {
   try {
